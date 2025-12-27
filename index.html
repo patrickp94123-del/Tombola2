@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Erste deutsche Tombola</title>
 <style>
-  /* Grundlayout */
   body {
     margin:0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1a1f2b, #05060a);
-    color:#fff;
+    font-family:'Arial',sans-serif;
+    background: linear-gradient(135deg,#ffecd2,#fcb69f); /* warme, glückliche Farben */
+    color:#111;
+    scroll-behavior: smooth;
   }
 
   header {
@@ -21,33 +21,41 @@
     font-size:3rem;
     margin-bottom:10px;
     letter-spacing:1px;
+    color:#ff3b3b;
   }
   header p {
     font-size:1.2rem;
     opacity:0.8;
   }
 
-  /* Galerie */
   .gallery-container {
     display:flex;
     overflow-x:auto;
     padding:30px;
     gap:20px;
+    scroll-behavior: smooth;
+    animation: scroll-gallery 20s linear infinite;
   }
+
+  @keyframes scroll-gallery {
+    0% { scroll-left: 0; }
+    100% { scroll-left: 1000px; } /* automatische Scrollweite */
+  }
+
   .gallery-container::-webkit-scrollbar { height:8px; }
   .gallery-container::-webkit-scrollbar-thumb { background:#ff6b6b; border-radius:4px; }
 
   .card {
     flex:0 0 auto;
     width:250px;
-    background:rgba(255,255,255,0.05);
+    background:rgba(255,255,255,0.9);
     border-radius:15px;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
+    box-shadow:0 0 20px rgba(0,0,0,0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .card:hover {
-    transform: translateY(-10px);
-    box-shadow:0 0 30px rgba(255,107,107,0.7);
+    transform: translateY(-10px) scale(1.05);
+    box-shadow:0 0 30px rgba(255,59,59,0.7);
   }
   .card img {
     width:100%;
@@ -55,39 +63,49 @@
     border-top-right-radius:15px;
   }
   .card h3 {
-    margin:15px;
+    margin:10px 15px 0 15px;
     font-size:1.2rem;
+    color:#ff3b3b;
   }
   .card p {
-    margin:0 15px 15px 15px;
-    font-size:0.95rem;
-    opacity:0.8;
+    margin:5px 15px 15px 15px;
+    font-size:1rem;
+    opacity:0.85;
   }
 
-  /* Button */
   .buy-button {
     display:block;
     margin:40px auto;
     padding:15px 40px;
-    background:#ff6b6b;
+    background:#ff3b3b;
     color:#fff;
     text-decoration:none;
     font-weight:bold;
     border-radius:10px;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
+    cursor:pointer;
   }
-  .buy-button:hover {
-    background:#ff3b3b;
+  .buy-button:hover { 
+    background:#ff6b6b;
+    transform: scale(1.05);
   }
 
-  /* Footer */
+  #loskaufen {
+    margin:50px auto;
+    padding:50px;
+    max-width:700px;
+    background: rgba(255,255,255,0.9);
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.2);
+  }
+
   footer {
     text-align:center;
     padding:20px;
-    opacity:0.5;
+    opacity:0.7;
     font-size:0.9rem;
   }
-
 </style>
 </head>
 <body>
@@ -100,32 +118,39 @@
 <!-- Galerie -->
 <div class="gallery-container">
   <div class="card">
-    <img src="https://via.placeholder.com/250x150?text=Preis+1" alt="Preis 1">
-    <h3>Preis 1</h3>
-    <p>Beschreibung vom ersten Preis</p>
+    <img src="https://m.media-amazon.com/images/I/61LFeKye45L._AC_SL1500_.jpg" alt="Apple iPhone 17 Pro">
+    <h3>Apple iPhone 17 Pro 256 GB</h3>
+    <p>6,3" Display mit ProMotion bis zu 120 Hz, A19 Pro Chip</p>
   </div>
-  <div class="card">
-    <img src="https://via.placeholder.com/250x150?text=Preis+2" alt="Preis 2">
-    <h3>Preis 2</h3>
-    <p>Beschreibung vom zweiten Preis</p>
-  </div>
-  <div class="card">
-    <img src="https://via.placeholder.com/250x150?text=Preis+3" alt="Preis 3">
-    <h3>Preis 3</h3>
-    <p>Beschreibung vom dritten Preis</p>
-  </div>
-  <div class="card">
-    <img src="https://via.placeholder.com/250x150?text=Preis+4" alt="Preis 4">
-    <h3>Preis 4</h3>
-    <p>Beschreibung vom vierten Preis</p>
-  </div>
+  <!-- Hier kannst du weitere Karten einfügen -->
 </div>
 
-<a href="#" class="buy-button">Jetzt Los kaufen</a>
+<!-- Button scrollt zum Los-Kaufen Abschnitt -->
+<a href="#loskaufen" class="buy-button">Jetzt Los kaufen</a>
+
+<!-- Los-Kaufen Abschnitt -->
+<div id="loskaufen">
+  <h2>Los kaufen</h2>
+  <p>Hier kannst du dein Los auswählen!</p>
+  <a class="buy-button" onclick="alert('Los erfolgreich gewählt!');">Los wählen</a>
+</div>
 
 <footer>
   &copy; 2025 Erste deutsche Tombola
 </footer>
+
+<script>
+  // Optional: sanfte automatische Galerie-Scroll für alle Browser
+  const gallery = document.querySelector('.gallery-container');
+  let scrollAmount = 0;
+  function autoScroll() {
+    scrollAmount += 1;
+    if(scrollAmount > gallery.scrollWidth - gallery.clientWidth) scrollAmount = 0;
+    gallery.scrollLeft = scrollAmount;
+    requestAnimationFrame(autoScroll);
+  }
+  autoScroll();
+</script>
 
 </body>
 </html>
